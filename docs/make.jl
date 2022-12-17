@@ -21,5 +21,6 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/iskyd/SurrealDB.jl",
-    devbranch="main",
+    devbranch="dev",
+    branch = "gh-pages",
 )
