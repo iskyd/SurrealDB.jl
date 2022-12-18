@@ -1,4 +1,6 @@
 using HTTP
+using Base64
+using JSON
 
 export HTTPClient, execute
 
@@ -19,8 +21,17 @@ function HTTPClient(url::String, namespace::String, database::String)
 end
 
 function execute(client::HTTPClient, query::String)
-    headers = Dict("Content-Type" => "application/json")
-    body = Dict("query" => query)
-    response = HTTP.request("POST", client.url * "/sql", headers, body)
-    return response
+    headers = Dict(
+        "Content-Type" => "text/plain", 
+        "Accept" => "application/json", 
+        "NS" => "test", 
+        "DB" => "test",
+        "Authorization" => "Basic " * base64encode(client.username * ":" * client.password),
+    )
+    response = HTTP.post(client.url, headers, query)
+    if response.status != 200
+        error("Error executing query: " * String(response.body))
+    end
+
+    return JSON.parse(String(response.body))[1]["result"]
 end
