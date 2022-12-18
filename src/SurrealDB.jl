@@ -1,5 +1,5 @@
 module SurrealDB
 
-# Write your package code here.
+include("HttpClient.jl")
 
 end
