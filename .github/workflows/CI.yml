@@ -48,8 +48,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          julia --project=docs -e '
-            using Documenter: DocMeta, doctest
-            using SurrealDB
-            DocMeta.setdocmeta!(SurrealDB, :DocTestSetup, :(using SurrealDB); recursive=true)
-            doctest(SurrealDB)'
+          julia --project=docs docs/make.jl
