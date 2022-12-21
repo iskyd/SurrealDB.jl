@@ -8,12 +8,12 @@ struct HTTPClient
     url::String
     namespace::String
     database::String
-    username::String
+    user::String
     password::String
 end
 
-function HTTPClient(url::String, namespace::String, database::String, username::String, password::String)::HTTPClient
-    return HTTPClient(url, namespace, database, username, password)
+function HTTPClient(url::String, namespace::String, database::String, user::String, password::String)::HTTPClient
+    return HTTPClient(url, namespace, database, user, password)
 end
 
 function HTTPClient(url::String, namespace::String, database::String)::HTTPClient
@@ -26,7 +26,7 @@ function execute(client::HTTPClient, query::String)
         "Accept" => "application/json",
         "NS" => "test",
         "DB" => "test",
-        "Authorization" => "Basic " * base64encode(client.username * ":" * client.password),
+        "Authorization" => "Basic " * base64encode(client.user * ":" * client.password),
     )
     response = HTTP.post(client.url * "/sql", headers, query)
     if response.status != 200
@@ -42,7 +42,7 @@ function select(client::HTTPClient, table::String, key::String="")
         "Accept" => "application/json",
         "NS" => "test",
         "DB" => "test",
-        "Authorization" => "Basic " * base64encode(client.username * ":" * client.password),
+        "Authorization" => "Basic " * base64encode(client.user * ":" * client.password),
     )
     url = client.url * "/key/" * table
     if key !== ""
@@ -63,7 +63,7 @@ function create_record(client::HTTPClient, table::String, object::Dict, key::Str
         "Accept" => "application/json",
         "NS" => "test",
         "DB" => "test",
-        "Authorization" => "Basic " * base64encode(client.username * ":" * client.password),
+        "Authorization" => "Basic " * base64encode(client.user * ":" * client.password),
     )
     url = client.url * "/key/" * table
     if key !== ""
@@ -84,7 +84,7 @@ function update_record(client::HTTPClient, table::String, key::String, object::D
         "Accept" => "application/json",
         "NS" => "test",
         "DB" => "test",
-        "Authorization" => "Basic " * base64encode(client.username * ":" * client.password),
+        "Authorization" => "Basic " * base64encode(client.user * ":" * client.password),
     )
 
     url = client.url * "/key/" * table * "/" * key
@@ -107,7 +107,7 @@ function delete_record(client::HTTPClient, table::String, key::String)
         "Accept" => "application/json",
         "NS" => "test",
         "DB" => "test",
-        "Authorization" => "Basic " * base64encode(client.username * ":" * client.password),
+        "Authorization" => "Basic " * base64encode(client.user * ":" * client.password),
     )
     response = HTTP.delete(client.url * "/key/" * table * "/" * key, headers)
     if response.status != 200
@@ -123,7 +123,7 @@ function delete_all(client::HTTPClient, table::String)
         "Accept" => "application/json",
         "NS" => "test",
         "DB" => "test",
-        "Authorization" => "Basic " * base64encode(client.username * ":" * client.password),
+        "Authorization" => "Basic " * base64encode(client.user * ":" * client.password),
     )
     response = HTTP.delete(client.url * "/key/" * table, headers)
     if response.status != 200
