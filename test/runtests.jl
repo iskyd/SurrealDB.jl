@@ -1,6 +1,8 @@
+cd(@__DIR__)
+
 using SurrealDB
-using Test
+using Test, TestSetExtensions, SafeTestsets
 
 @testset "SurrealDB.jl" begin
-    # Write your tests here.
+    @includetests ARGS #[(endswith(t, ".jl") && t[1:end-3]) for t in ARGS]
 end
