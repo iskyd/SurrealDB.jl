@@ -1,4 +1,4 @@
-@safetestset "http_client" begin
+@testset "http_client" begin
     using SurrealDB
 
     client = HTTPClient("url", "namespace", "db", "user", "password")

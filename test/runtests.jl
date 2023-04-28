@@ -1,8 +1,17 @@
 cd(@__DIR__)
 
-using SurrealDB
-using Test, TestSetExtensions, SafeTestsets
+using Test
+using Random
 
-@testset "SurrealDB.jl" begin
-    @includetests ARGS #[(endswith(t, ".jl") && t[1:end-3]) for t in ARGS]
+Random.seed!(42)
+
+enabled_tests = lowercase.(ARGS)
+function addtests(fname)
+    key = lowercase(splitext(fname)[1])
+    if isempty(enabled_tests) || key in enabled_tests
+        Random.seed!(42)
+        include(fname)
+    end
 end
+
+addtests("http_client.jl")
