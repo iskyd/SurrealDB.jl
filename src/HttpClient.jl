@@ -124,3 +124,20 @@ function delete_all(client::HTTPClient, table::String)
 
     return true
 end
+                        
+function execute_surrealql(client::HTTPClient, query::String)
+    headers = Dict(
+        "Content-Type" => "text/plain",
+        "Accept" => "application/json",
+        "NS" => "test",
+        "DB" => "test",
+        "Authorization" => "Basic " * base64encode(client.user * ":" * client.password),
+    )
+    response = HTTP.post(client.url * "/import", headers)
+    if response.status != 200
+        error("Error executing query: " * String(response.body)
+    end
+    
+    return JSON.parse(String(response.body))[1]["result"]
+end
+                        
