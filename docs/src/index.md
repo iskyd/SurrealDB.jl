@@ -9,7 +9,7 @@ Unofficial Julia client for [SurrealDB](https://surrealdb.com/)
 
 ```
 using SurrealDB
-client = HttpClient("url", "namespace", "database", "user", "pass")
+client = HttpClient(url="url", namespace="namespace", database="database", user="user", password="pass")
 ```
 
 ##### execute

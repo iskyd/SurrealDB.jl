@@ -4,20 +4,12 @@ using JSON
 
 export HTTPClient, execute, select, create_record, update_record, delete_record, delete_all
 
-struct HTTPClient
+Base.@kwdef struct HTTPClient
     url::String
     namespace::String
     database::String
-    user::String
-    password::String
-end
-
-function HTTPClient(url::String, namespace::String, database::String, user::String, password::String)::HTTPClient
-    return HTTPClient(url, namespace, database, user, password)
-end
-
-function HTTPClient(url::String, namespace::String, database::String)::HTTPClient
-    return HTTPClient(url, namespace, database, "", "")
+    user::String = ""
+    password::String = ""
 end
 
 function execute(client::HTTPClient, query::String)
